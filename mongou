@@ -10,12 +10,11 @@ if [ -z $1 ]
 		proto="$(echo $URL | grep :// | sed -e's,^\(.*://\).*,\1,g')"
 		userpassproto="$(echo $URL | grep @ | cut -d@ -f1)"
 		userpass="$(echo ${userpassproto/$proto/})"
-		hostproto="$(echo ${URL/$user@/})"
+		host="$(echo ${URL/$userpassproto@/})"
 		host="$(echo ${host/$proto/})"
 
 		password="$(echo $userpass | grep : | cut -d: -f2)"
 		username="$(echo $userpass | grep : | cut -d: -f1)"
 
-		echo "mongo -u $username -p $password $host"
 		mongo -u $username -p $password $host
 	fi

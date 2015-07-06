@@ -5,7 +5,7 @@
 
 # Install
 ```
-git clone https://github.com/aggregable/mongourl.git
+git clone https://github.com/dutchakdev/mongourl.git
 cd ./mongourl
 cp mongou /usr/local/bin/
 chmod +x /usr/local/bin/mongou
