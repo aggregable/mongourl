@@ -1,14 +1,21 @@
 #!/bin/bash
 
-URL=$1
-proto="$(echo $URL | grep :// | sed -e's,^\(.*://\).*,\1,g')"
-userpassproto="$(echo $URL | grep @ | cut -d@ -f1)"
-userpass="$(echo ${userpassproto/$proto/})"
-hostproto="$(echo ${URL/$user@/})"
-host="$(echo ${host/$proto/})"
+if [ -z $1 ]
+	then
+		echo "Usage: mongou mongodb://user:pass@host:port/db"
+		exit;
+	else
 
-password="$(echo $userpass | grep : | cut -d: -f2)"
-username="$(echo $userpass | grep : | cut -d: -f1)"
+		URL=$1
+		proto="$(echo $URL | grep :// | sed -e's,^\(.*://\).*,\1,g')"
+		userpassproto="$(echo $URL | grep @ | cut -d@ -f1)"
+		userpass="$(echo ${userpassproto/$proto/})"
+		host="$(echo ${URL/$userpassproto@/})"
+		host="$(echo ${host/$proto/})"
 
-echo "mongo -u $username -p $password $host"
-mongo -u $username -p $password $host
+		password="$(echo $userpass | grep : | cut -d: -f2)"
+		username="$(echo $userpass | grep : | cut -d: -f1)"
+
+		# echo "mongo -u $username -p $password $host"
+		mongo -u $username -p $password $host
+	fi
